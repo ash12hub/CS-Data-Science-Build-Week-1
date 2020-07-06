@@ -7,6 +7,7 @@ class KNearestNeighbours:
         self.y_train = None
 
     def fit(self, x_train, y_train, k=1):
+        """Trains the algoorithm with data to be ready for new data"""
         self.k = k
 
         train = []
@@ -17,7 +18,10 @@ class KNearestNeighbours:
         self.train = train
 
     def predict(self, x_test):
+        """Predicts output values for input x_test and returns
+        predictions for each row of input"""
         def euclidean_distance(self, instance1, instance2, length):
+            """Calculates the distance between one row of data and another"""
             distance = 0
             for i in range(length):
                 distance += pow((instance1[i] - instance2[i]), 2)
@@ -28,12 +32,17 @@ class KNearestNeighbours:
         for j in range(len(x_test)):
             distances = []
             for i in range(len(self.train)):
+                """Get distances between one row of test data with
+                each row of trained data, then sorts the distances
+                in ascending order"""
                 dist = self.euclidean_distance(self.train[i], x_test[j], length)
                 distances.append([self.train[i], dist])
             distances.sort(key=lambda x: x[1])
 
             neighboors = []
             for i in range(self.k):
+                """Finds the first k neighbours with the shortest distance
+                and saves them"""
                 neighboors.append(distances[i][0])
             self.neighboors = neighboors
 
@@ -53,6 +62,8 @@ class KNearestNeighbours:
             return predictions
 
     def get_accuracy(actual, predicted):
+        """Compare the actual outputs with the predicted outputs to get the
+        accuracy of the model"""
         count = 0
         correct = 0
         for i in range(len(actual)):
